@@ -3,6 +3,8 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { authTypeDefs } from "./src/schemas/auth_schema";
 import { authResolvers } from "./src/resolvers/auth_resolver";
 import { AuthAPI } from "./src/datasources/auth_api";
+import {PersonalManagerAPI} from "./src/datasources/personal_manager_api";
+
 
 const server = new ApolloServer({
   typeDefs: [authTypeDefs],
@@ -24,6 +26,7 @@ const startServer = async () => {
     context: async () => ({
       dataSources: {
         authAPI: new AuthAPI(),
+        personalManagerAPI: new PersonalManagerAPI(),
       },
     }),
   });

@@ -8,8 +8,11 @@ export const authTypeDefs = gql`
   }
 
   type AuthResponse {
-    access_token: String!
-    token_type: String!
+    message: String!
+    success: Boolean!
+    access_token: String
+    token_type: String
+    role: String
   }
 
   input SignUpInput {

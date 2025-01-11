@@ -10,7 +10,16 @@ export class AuthAPI extends RESTDataSource {
   }
 
   async signin(email: string, password: string) {
-    return this.post("/signin", { body: { email, password } });
+    const body = new URLSearchParams();
+    body.append('username', email);
+    body.append('password', password);
+
+    return this.post("/signin", {
+      body: body.toString(),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
   }
 
   async signup(input: { email: string; password: string }) {
