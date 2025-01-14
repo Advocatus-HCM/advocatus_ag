@@ -8,26 +8,31 @@ export class PersonalManagerAPI extends RESTDataSource {
     email: string,
     phone_number: string,
     profession: string,
-    superior: string,
-    team: string) {
+    userEmail: string,
+    superior?: string,
+    team?: string) {
 
-    const body = {
+    const body: any = {
       name: name,
       last_name: last_name,
       email: email,
       phone_number: phone_number,
       profession: profession,
-      superior: superior,
-      team: team
     };
 
-    return JSON.stringify(body);
+    if (superior) {
+      body.superior = superior;
+    }
+
+    if (team) {
+      body.team = team;
+    }
 
     return this.post("/create-user", {
       body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
-        'user-email': email,
+        'user-email': userEmail,
       },
     });
   }

@@ -20,20 +20,19 @@ const authResolvers: IResolvers = {
       }
     },
     signin: async (_: any, { email, password }: { email: string; password: string }, { dataSources }: { dataSources: { authAPI: AuthAPI } }) => {
+      let response = null;
       try {
-        const response = await dataSources.authAPI.signin(email, password);
-        if (!response) {
-          throw new Error("Signin failed");
-        }
-        return {
-          message: "Signin successful",
-          success: true,
-          response: response
-        };
-      } catch (error) {
+        response = await dataSources.authAPI.signin(email, password);
+      } catch (error: any) {
         console.error("Error during signin:", error);
-        throw new Error(`Signin failed: ${error}`);
+        const errorDetails = error?.extensions?.response?.body?.detail || error.message;
+        throw new Error(`User Authentication Error: ${JSON.stringify(errorDetails)}`);
       }
+      return {
+        message: "Signin successful",
+        success: true,
+        response: response
+      };
     }
   }
 };

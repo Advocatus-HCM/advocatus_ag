@@ -29,11 +29,11 @@ export const userTypeDefs = gql`
     password: String!
     phone_number: String!
     profession: String!
-    superior: String!
-    team: String!
+    superior: String
+    team: String
   }
 
   type Mutation {
-    createUser(input: CreateUserInput): CreateUserResponse
+    createUser(input: CreateUserInput, userEmail: String!): CreateUserResponse
   }
 `;

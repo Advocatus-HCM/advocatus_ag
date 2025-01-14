@@ -4,14 +4,14 @@ export const personalManagerTypeDefs = gql`
     scalar JSON
 
 
-    type User{
+    input CreateUserPersonalManagerInput{
         name: String!
         last_name: String!
         email: String!
         phone_number: String!
         profession: String!
-        superior: String!
-        team: String!
+        superior: String
+        team: String
     }
 
     type CreateUserResponsePersonalManagerMS {
@@ -21,6 +21,6 @@ export const personalManagerTypeDefs = gql`
     }
 
     type Mutation{
-        createUserPersonalManagerMS(name: String!, last_name: String!, email: String!, phone_number: String!, profession: String!, superior: String!, team: String!): CreateUserResponsePersonalManagerMS
+        createUserPersonalManagerMS(input: CreateUserPersonalManagerInput, userEmail: String!): CreateUserResponsePersonalManagerMS
     }
 `;
