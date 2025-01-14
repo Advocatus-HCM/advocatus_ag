@@ -18,11 +18,23 @@ export class AuthAPI extends RESTDataSource {
       body: body.toString(),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'x-apollo-operation-name': 'signin',
       },
     });
   }
 
   async signup(input: { email: string; password: string }) {
-    return this.post("/signup", { body: input });
+    const body = {
+      email: input.email,
+      password: input.password
+    };
+
+    return this.post("/signup", {
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'signup',
+      },
+    });
   }
 }

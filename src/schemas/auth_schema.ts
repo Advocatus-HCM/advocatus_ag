@@ -1,6 +1,8 @@
 import { gql } from "graphql-tag";
 
 export const authTypeDefs = gql`
+  scalar JSON
+
   type User {
     id_user: ID!
     email: String!
@@ -10,9 +12,13 @@ export const authTypeDefs = gql`
   type AuthResponse {
     message: String!
     success: Boolean!
-    access_token: String
-    token_type: String
-    role: String
+    response: JSON
+  }
+
+  type SignUpResponse {
+    message: String!
+    success: Boolean!
+    response: JSON
   }
 
   input SignUpInput {
@@ -26,6 +32,6 @@ export const authTypeDefs = gql`
 
   type Mutation {
     signin(email: String!, password: String!): AuthResponse
-    signup(input: SignUpInput): User
+    signup(input: SignUpInput): SignUpResponse
   }
 `;
