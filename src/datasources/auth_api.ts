@@ -1,7 +1,7 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class AuthAPI extends RESTDataSource {  
-  override baseURL = "http://localhost:8000"; 
+  override baseURL = "http://advocatus_authentificator_ms:8000"; 
 
   async verifyToken(token: string) {
     return this.get("/token", {

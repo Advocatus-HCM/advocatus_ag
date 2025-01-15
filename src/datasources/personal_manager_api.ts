@@ -1,7 +1,7 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class PersonalManagerAPI extends RESTDataSource {  
-  override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
+  override baseURL = "http://advocatus_personal_manager_ms:8001"; // URL del microservicio de gestión personal
 
   async createUserPersonalManagerMS(name: string,
     last_name: string,
