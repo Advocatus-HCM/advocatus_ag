@@ -20,7 +20,14 @@ export const personalManagerTypeDefs = gql`
         response: JSON
     }
 
+    type DeleteUserPersonalManagerResponse {
+        message: String!
+        success: Boolean!
+        response: JSON
+    }
+
     type Mutation{
         createUserPersonalManagerMS(input: CreateUserPersonalManagerInput, userEmail: String!): CreateUserResponsePersonalManagerMS
+        deleteUserPersonalManager(email: String!, userEmail: String!): DeleteUserPersonalManagerResponse
     }
 `;

@@ -1,3 +1,5 @@
+import cors from "cors";
+import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { authTypeDefs} from "./src/schemas/auth_schema";
@@ -8,10 +10,16 @@ import { personalManagerTypeDefs } from "./src/schemas/personal_manager_schema";
 import { PersonalManagerResolvers } from "./src/resolvers/personal_manager_resolver";
 import { UserResolvers } from "./src/resolvers/user_resolver";
 import { userTypeDefs } from "./src/schemas/user_schema";
+import { ContractResolvers } from "./src/resolvers/contract_resolver";
+import { ContractTypeDefs } from "./src/schemas/contract_schema";
+
+const app = express();
+app.use(cors());
+
 
 const server = new ApolloServer({
-  typeDefs: [authTypeDefs, personalManagerTypeDefs, userTypeDefs],
-  resolvers: [authResolvers, PersonalManagerResolvers, UserResolvers],
+  typeDefs: [authTypeDefs, personalManagerTypeDefs, userTypeDefs, ContractTypeDefs],
+  resolvers: [authResolvers, PersonalManagerResolvers, UserResolvers, ContractResolvers],
   formatError: (err) => {
     console.error("GraphQL Error:", err);
     return {

@@ -33,7 +33,15 @@ export const userTypeDefs = gql`
     team: String
   }
 
+  type DeleteUserResponse {
+    message: String!
+    success: Boolean!
+    AuthResponse: JSON
+    PersonalManagerResponse: JSON
+  }
+
   type Mutation {
     createUser(input: CreateUserInput, userEmail: String!): CreateUserResponse
+    deleteUser(email: String!, userEmail: String!): DeleteUserResponse
   }
 `;

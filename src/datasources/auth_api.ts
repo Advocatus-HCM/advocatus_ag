@@ -1,11 +1,11 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class AuthAPI extends RESTDataSource {  
-  override baseURL = "http://advocatus_authentification_ms:8000"; 
+  override baseURL = "http://localhost:8000"; 
 
   async verifyToken(token: string) {
     return this.get("/token", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}`, 'x-apollo-operation-name': 'verifyToken' },
     });
   }
 
@@ -35,6 +35,25 @@ export class AuthAPI extends RESTDataSource {
         'Content-Type': 'application/json',
         'x-apollo-operation-name': 'signup',
       },
+    });
+  }
+
+  async deleteUserAuth(email: string){
+
+  }
+
+  async updateUserRoleAuth(email: string, newrole: string, token: string) {
+    const body = {
+      email: email,
+      role: newrole
+    }
+    return this.put("/user/update", {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'updateUserRoleAuth',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(body)
     });
   }
 }

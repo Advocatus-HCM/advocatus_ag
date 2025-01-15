@@ -21,6 +21,12 @@ export const authTypeDefs = gql`
     response: JSON
   }
 
+  type DeleteUserAuthResponse {
+    message: String!
+    success: Boolean!
+    response: JSON
+  }
+
   input SignUpInput {
     email: String!
     password: String!
@@ -33,5 +39,6 @@ export const authTypeDefs = gql`
   type Mutation {
     signin(email: String!, password: String!): AuthResponse
     signup(input: SignUpInput): SignUpResponse
+    deleteUserAuth(email: String!): DeleteUserAuthResponse
   }
 `;

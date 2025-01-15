@@ -40,6 +40,35 @@ const UserResolvers: IResolvers = {
         PersonalManagerResponse: responsePersonalManager,
       };
     },
+    
+    deleteUser: async (_: any,{email, userEmail}:{email: string, userEmail:string},
+    {dataSources}:{dataSources:{personalManagerAPI:PersonalManagerAPI, authAPI:AuthAPI}}
+    ) =>{
+      let responsePersonalManager;
+      let responseAuth;
+      try {
+        responsePersonalManager = await dataSources.personalManagerAPI.deleteUserPersonalManager(email, userEmail);
+      } catch (error: any) {
+        console.error("Error deleting user in Personal Manager:", error);
+        const errorDetails = error?.extensions?.response?.body?.errors || error.message;
+        throw new Error(`User deletion failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
+      }
+      
+      try {
+        responseAuth = await dataSources.authAPI.deleteUserAuth(email);
+      } catch (error: any) {
+        console.error("Error deleting user in Auth API:", error);
+        const errorDetails = error.extensions?.response?.body?.errors || error.message;
+        throw new Error(`User deletion failed in Authentification: ${JSON.stringify(errorDetails)}`);
+      }
+
+      return {
+        message: "User deleted successfully",
+        success: true,
+        AuthResponse: responseAuth,
+        PersonalManagerResponse: responsePersonalManager,
+      };
+    }
   },
 };
 
