@@ -91,7 +91,46 @@ const ContractResolvers: IResolvers = {
                     AuthResponse: responseAuth,
                     PersonalManagerResponse: responsePersonalManager,
                 };
+            },
+        
+        deleteContract: async(
+            _: any,
+            { contractid, userAuth }: { contractid: string, userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
+        ) => {
+            let responsePersonalManager;
+            let responseAuth;
+            //Validate Token
+            try{
+                await dataSources.authAPI.verifyToken(userAuth.token);
             }
+            catch{
+                throw new Error("Invalid Token");
+            }
+            //DeleteContractPersonalManager
+            try{
+                responsePersonalManager = await dataSources.personalManagerAPI.deleteContractPersonalManagerMS(contractid, userAuth.email);
+            }catch(error: any){
+                console.error("Error deleting contract in Personal Manager:", error);
+                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
+                throw new Error(`Contract deletion failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
+            }
+            //DeleteContractAuth
+            try{
+                responseAuth = await dataSources.authAPI.updateUserRoleAuth(contractid, "desactivado", userAuth.token);
+            }catch(error: any){
+                console.error("Error deleting contract in Auth API:", error);
+                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
+                throw new Error(`Contract deletion failed in Authentication: ${JSON.stringify(errorDetails)}`);
+            }
+            //Success
+            return {
+                message: "Contract deleted successfully",
+                success: true,
+                AuthResponse: responseAuth,
+                PersonalManagerResponse: responsePersonalManager,
+            };
+        },
     }
 }
 

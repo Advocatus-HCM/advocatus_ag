@@ -47,6 +47,8 @@ export class PersonalManagerAPI extends RESTDataSource {
     });
   }
 
+  //////CONTRACTS
+
   async updateContractPersonalManagerMS( newRole: string, email: string, userEmail: string) {
     const body = {
       role: newRole
@@ -78,6 +80,15 @@ export class PersonalManagerAPI extends RESTDataSource {
         'x-apollo-operation-name': 'createContractPersonalManagerMS'
       },
       body: JSON.stringify(body)
+    });
+  }
+
+  async deleteContractPersonalManagerMS(email: string, userEmail: string) {
+    return this.delete(`/delete-contract/${email}`, {
+      headers: {
+        'user-email': userEmail,
+        'x-apollo-operation-name': 'deleteContractPersonalManagerMS'
+      }
     });
   }
 }

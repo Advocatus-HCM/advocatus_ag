@@ -30,8 +30,16 @@ export const ContractTypeDefs = gql`
         PersonalManagerResponse: JSON
     }
 
+    type DeleteContractResponse{
+        message: String!
+        success: Boolean!
+        AuthResponse: JSON
+        PersonalManagerResponse: JSON
+    }
+
     type Mutation{
         updateContract(newrole: String!, contractid: String!, userAuth: UserAuth!): UpdateContractResponse
         createContract(createContractInput: CreateContractInput!, userAuth: UserAuth!): CreateContractResponse
+        deleteContract(contractid: String!, userAuth: UserAuth!): DeleteContractResponse
     }
 `;
