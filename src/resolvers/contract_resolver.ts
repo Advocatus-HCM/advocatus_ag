@@ -1,6 +1,7 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { AuthAPI } from "../datasources/auth_api";
 import { PersonalManagerAPI } from "../datasources/personal_manager_api";
+import { stat } from "fs";
 
 
 const ContractResolvers: IResolvers = {
@@ -45,6 +46,52 @@ const ContractResolvers: IResolvers = {
             };
 
         },
+
+        createContract: async(
+            _: any,
+            { createContractInput, userAuth }: { createContractInput: { user_email: string, type: string, salary: string, start_date: string, end_date: string, probation_end_date: string, role: string }, userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
+        ) => {
+               let responsePersonalManager;
+               let responseAuth;
+                //Validate Token
+                try{
+                    await dataSources.authAPI.verifyToken(userAuth.token);
+                }
+                catch{
+                    throw new Error("Invalid Token");
+                }
+                //CreateContractPersonalManager 
+                try{
+                    responsePersonalManager = await dataSources.personalManagerAPI.createContractPersonalManagerMS(createContractInput.user_email, createContractInput.type, createContractInput.salary, createContractInput.start_date, createContractInput.end_date, createContractInput.probation_end_date, createContractInput.role, userAuth.email);
+                }catch(error: any){
+                    console.error("Error creating contract in Personal Manager:", error);
+                    const status = error.extensions?.response?.status || error.status || error.statusCode;
+                    const errorDetails = error.extensions?.response?.body?.errors || error.message;
+                    if (status === 403) {
+                      throw new Error("User does not have permission to create a contract.");
+                    }
+                    if(status === 500){
+                        throw new Error("Error: User does not exists or has another contract");
+                    }
+                    throw new Error(`Contract creation failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
+                }
+                //CreateContractAuth
+                try{
+                    responseAuth = await dataSources.authAPI.updateUserRoleAuth(createContractInput.user_email, createContractInput.role, userAuth.token);
+                }catch(error: any){
+                    console.error("Error creating contract in Auth API:", error);
+                    const errorDetails = error?.extensions?.response?.body?.errors || error.message;
+                    throw new Error(`Contract creation failed in Authentication: ${JSON.stringify(errorDetails)}`);
+                }
+                //Success
+                return {
+                    message: "Contract created successfully",
+                    success: true,
+                    AuthResponse: responseAuth,
+                    PersonalManagerResponse: responsePersonalManager,
+                };
+            }
     }
 }
 

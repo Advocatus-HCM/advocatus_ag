@@ -60,4 +60,24 @@ export class PersonalManagerAPI extends RESTDataSource {
       body: JSON.stringify(body)
     });
   }
+
+  async createContractPersonalManagerMS(user_email: string, type: string, salary: string, start_date: string, end_date: string, probation_end_date: string, role: string, emailheader: string) {
+    const body = {
+      user_email: user_email,
+      type: type,
+      salary: salary,
+      start_date: start_date,
+      end_date: end_date,
+      probation_end_date: probation_end_date,
+      role: role,
+    }
+    return this.post("/create-contract", {
+      headers: {
+        'user-email': emailheader,
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'createContractPersonalManagerMS'
+      },
+      body: JSON.stringify(body)
+    });
+  }
 }
