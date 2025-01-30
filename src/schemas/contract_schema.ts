@@ -41,5 +41,8 @@ export const ContractTypeDefs = gql`
         updateContract(newrole: String!, contractid: String!, userAuth: UserAuth!): UpdateContractResponse
         createContract(createContractInput: CreateContractInput!, userAuth: UserAuth!): CreateContractResponse
         deleteContract(contractid: String!, userAuth: UserAuth!): DeleteContractResponse
+        getContractTypes(userAuth: UserAuth!): JSON
+        getAllContracts(userAuth: UserAuth!): JSON
+        getContract(contractid: String!, userAuth: UserAuth!): JSON
     }
 `;

@@ -131,6 +131,93 @@ const ContractResolvers: IResolvers = {
                 PersonalManagerResponse: responsePersonalManager,
             };
         },
+
+        getContractTypes: async(
+            _: any,
+            { userAuth }: { userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
+        ) => {
+            //Validate Token
+            try{
+                await dataSources.authAPI.verifyToken(userAuth.token);
+            }
+            catch{
+                throw new Error("Invalid Token");
+            }
+            //GetContractTypes
+            try{
+                const response = await dataSources.personalManagerAPI.getContractTypesPersonalManagerMS(userAuth.email);
+                return {
+                    message: "Contract types found",
+                    success: true,    
+                    response: response
+                };
+            }catch(error){
+                return {
+                    message: "Error: Contract types not found",
+                    success: false,
+                    response: error
+                };
+            }
+        },
+
+        getAllContracts: async(
+            _: any,
+            { userAuth }: { userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
+        ) => {
+            //Validate Token
+            try{
+                await dataSources.authAPI.verifyToken(userAuth.token);
+            }
+            catch{
+                throw new Error("Invalid Token");
+            }
+            //GetAllContracts
+            try{
+                const response = await dataSources.personalManagerAPI.getAllContractsPersonalManagerMS(userAuth.email);
+                return {
+                    message: "Contracts found",
+                    success: true,    
+                    response: response
+                };
+            }catch(error){
+                return {
+                    message: "Error: Contracts not found",
+                    success: false,
+                    response: error
+                };
+            }
+        },
+
+        getContract: async(
+            _: any,
+            { contractid, userAuth }: { contractid: string, userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
+        ) => {
+            //Validate Token
+            try{
+                await dataSources.authAPI.verifyToken(userAuth.token);
+            }
+            catch{
+                throw new Error("Invalid Token");
+            }
+            //GetContract
+            try{
+                const response = await dataSources.personalManagerAPI.getContractPersonalManagerMS(contractid, userAuth.email);
+                return {
+                    message: "Contract found",
+                    success: true,    
+                    response: response
+                };
+            }catch(error){
+                return {
+                    message: "Error: Contract not found",
+                    success: false,
+                    response: error
+                };
+            }
+        }
     }
 }
 

@@ -137,4 +137,31 @@ export class PersonalManagerAPI extends RESTDataSource {
       }
     });
   }
+
+  async getContractTypesPersonalManagerMS(userEmail: string) {
+    return this.get(`/get-types`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getContractTypesPersonalManagerMS'
+      }
+    });
+  }
+
+  async getAllContractsPersonalManagerMS(userEmail: string) {
+    return this.get(`/get-contracts`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getAllContractsPersonalManagerMS'
+      }
+    });
+  }
+
+  async getContractPersonalManagerMS(email: string, userEmail: string) {
+    return this.get(`/get-contract/${email}`, {
+      headers: {
+        'user-email': userEmail,
+        'x-apollo-operation-name': 'getContractPersonalManagerMS'
+      }
+    });
+  }
 }
