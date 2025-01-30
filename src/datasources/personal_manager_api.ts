@@ -1,7 +1,8 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class PersonalManagerAPI extends RESTDataSource {  
-  override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
+  //override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
+  override baseURL = "http://advocatus_personal_manager_ms:8001"; // URL del microservicio de gestión personal
 
   //////USERS
   async createUserPersonalManagerMS(name: string,
@@ -263,6 +264,45 @@ export class PersonalManagerAPI extends RESTDataSource {
       headers: {
         'User-Email': userEmail,
         'x-apollo-operation-name': 'getTeamMembersPersonalManagerMS'
+      }
+    });
+  }
+
+  /////ASSISTANTS
+  async addAssistantPersonalManagerMS(data: any, userEmail: string) {
+    return this.post(`/add-assistant`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'addAssistantPersonalManagerMS'
+      },
+      body: data
+    });
+  }
+
+  async getAssistantsPersonalManagerMS(email: string, userEmail: string) {
+    return this.get(`/get-assistants/${email}`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getAssistantsPersonalManagerMS'
+      }
+    });
+  }
+
+  async removeAssistantPersonalManagerMS(data: any, userEmail: string) {
+    return this.delete(`/remove-assistant`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'removeAssistantPersonalManagerMS'
+      },
+      body: data
+    });
+  }
+
+  async getAllAssistantsPersonalManagerMS(userEmail: string) {
+    return this.get(`/get-all-assistants`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getAllAssistantsPersonalManagerMS'
       }
     });
   }

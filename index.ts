@@ -14,14 +14,16 @@ import { ContractResolvers } from "./src/resolvers/contract_resolver";
 import { ContractTypeDefs } from "./src/schemas/contract_schema";
 import { TeamResolvers } from "./src/resolvers/team_resolver";
 import { TeamTypeDefs } from "./src/schemas/team_schema";
+import { AssistantTypeDefs} from "./src/schemas/assistant_schema";
+import { AssistantResolvers} from "./src/resolvers/assistant_resolver";
 
 const app = express();
 app.use(cors());
 
 
 const server = new ApolloServer({
-  typeDefs: [authTypeDefs, personalManagerTypeDefs, userTypeDefs, ContractTypeDefs, TeamTypeDefs],
-  resolvers: [authResolvers, PersonalManagerResolvers, UserResolvers, ContractResolvers, TeamResolvers],
+  typeDefs: [authTypeDefs, personalManagerTypeDefs, userTypeDefs, ContractTypeDefs, TeamTypeDefs, AssistantTypeDefs],
+  resolvers: [authResolvers, PersonalManagerResolvers, UserResolvers, ContractResolvers, TeamResolvers, AssistantResolvers],
   formatError: (err) => {
     console.error("GraphQL Error:", err);
     return {
