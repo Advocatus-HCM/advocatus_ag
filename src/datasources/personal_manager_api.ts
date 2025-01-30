@@ -3,6 +3,7 @@ import { RESTDataSource } from "@apollo/datasource-rest";
 export class PersonalManagerAPI extends RESTDataSource {  
   override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
 
+  //////USERS
   async createUserPersonalManagerMS(name: string,
     last_name: string,
     email: string,
@@ -161,6 +162,107 @@ export class PersonalManagerAPI extends RESTDataSource {
       headers: {
         'user-email': userEmail,
         'x-apollo-operation-name': 'getContractPersonalManagerMS'
+      }
+    });
+  }
+
+  //////TEAMS
+
+  async createTeamPersonalManagerMS(team: any, userEmail: string) {
+    return this.post("/create-team", {
+      headers: {
+        'User-Email': userEmail,
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'createTeamPersonalManagerMS'
+      },
+      body: JSON.stringify(team)
+    });
+  }
+
+
+  async getTeamPersonalManagerMS(teamName: string,userEmail: string) {
+    return this.get(`/get-team/${teamName}`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getTeamPersonalManagerMS'
+      }
+    });
+  }
+
+  async getTeamsPersonalManagerMS(userEmail: string) {
+    return this.get(`/get-teams`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getTeamsPersonalManagerMS'
+      }
+    });
+  }
+
+  async updateTeamPersonalManagerMS(teamName: string, data: any, userEmail: string) {
+    return this.patch(`/update-team/${teamName}`, {
+      headers: {
+        'User-Email': userEmail,
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'updateTeamPersonalManagerMS'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteTeamPersonalManagerMS(teamName: string, userEmail: string) {
+    return this.delete(`/delete-team/${teamName}`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'deleteTeamPersonalManagerMS'
+      }
+    });
+  }
+
+  async getLeaderTeamsPersonalManagerMS(leader: string,userEmail: string) {
+    return this.get(`/get-leader-teams/${leader}`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getLeaderTeamsPersonalManagerMS'
+      }
+    });
+  }
+
+  //////TeamMembers
+  async addTeamMemberPersonalManagerMS(data: any, userEmail: string) {
+    return this.post(`/add-member`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'addTeamMemberPersonalManagerMS'
+      },
+      body: data
+    });
+  }
+
+  async addTeamMembersPersonalManagerMS(data: any, userEmail: string) {
+    return this.post(`/add-members`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'addTeamMembersPersonalManagerMS'
+      },
+      body: data
+    });
+  }
+
+  async removeTeamMemberPersonalManagerMS(data: any, userEmail: string) {
+    return this.delete(`/remove-member`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'removeTeamMemberPersonalManagerMS'
+      },
+      body: data
+    });
+  }
+
+  async getTeamMembersPersonalManagerMS(teamName: string, userEmail: string) {
+    return this.get(`/get-members/${teamName}`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getTeamMembersPersonalManagerMS'
       }
     });
   }
