@@ -1,7 +1,7 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class PersonalManagerAPI extends RESTDataSource {  
-  override baseURL = "http://advocatus_personal_manager_ms:8001"; // URL del microservicio de gestión personal
+  override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
 
   async createUserPersonalManagerMS(name: string,
     last_name: string,
@@ -43,6 +43,52 @@ export class PersonalManagerAPI extends RESTDataSource {
       headers: {
         'user-email': userEmail,
         'x-apollo-operation-name': 'deleteUserPersonalManager'
+      }
+    });
+  }
+
+  async getUserPersonalManager(email: string, userEmail: string) {
+    return this.get(`/get-user/${email}`, {
+      headers: {
+        'user-email': userEmail,
+        'x-apollo-operation-name': 'getUserPersonalManager'
+      }
+    });
+  }
+
+  async updateUserPersonalManager(email: string, data: any){
+    return this.put(`/update-user/${email}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'updateUserPersonalManager'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  async getRolesPersonalManager(userEmail: string) {
+    return this.get(`/get-roles`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getRoles'
+      }
+    });
+  }
+
+  async getAllUsersPersonalManager(userEmail: string) {
+    return this.get(`/get-users`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getAllUsers'
+      }
+    });
+  }
+
+  async getProfessionsPersonalManager(userEmail: string) {
+    return this.get(`/get-professions`, {
+      headers: {
+        'User-Email': userEmail,
+        'x-apollo-operation-name': 'getProfessions'
       }
     });
   }

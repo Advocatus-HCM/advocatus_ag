@@ -14,6 +14,7 @@ export const personalManagerTypeDefs = gql`
         team: String
     }
 
+
     type CreateUserResponsePersonalManagerMS {
         message: String!
         success: Boolean!
@@ -27,7 +28,14 @@ export const personalManagerTypeDefs = gql`
     }
 
     type Mutation{
-        createUserPersonalManagerMS(input: CreateUserPersonalManagerInput, userEmail: String!): CreateUserResponsePersonalManagerMS
+        createUserPersonalManagerMS(input: CreateUserPersonalManagerInput!, userEmail: String!): CreateUserResponsePersonalManagerMS
         deleteUserPersonalManager(email: String!, userEmail: String!): DeleteUserPersonalManagerResponse
+        getUserPersonalManager(email: String!,  userAuth: UserAuth!): JSON
+        updateUserPersonalManager(email: String!, input: JSON!, userAuth: UserAuth!): JSON
+        getAllUsersPersonalManager(userAuth: UserAuth!): JSON
+        
+        getRoles(userAuth: UserAuth!): JSON
+        getProfessions(userAuth: UserAuth!): JSON
+
     }
 `;
