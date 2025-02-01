@@ -1,7 +1,7 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class AuthAPI extends RESTDataSource {  
-  //override baseURL = "http://localhost:8000";
+  // override baseURL = "http://localhost:8000";
   override baseURL = "http://advocatus_authentificator_ms:8000";  
 
   async verifyToken(token: string) {
@@ -24,10 +24,10 @@ export class AuthAPI extends RESTDataSource {
     });
   }
 
-  async signup(input: { email: string; password: string }) {
+  async signup(data: any) {
     const body = {
-      email: input.email,
-      password: input.password
+      email: data.email,
+      password: data.password
     };
 
     return this.post("/signup", {
@@ -40,7 +40,7 @@ export class AuthAPI extends RESTDataSource {
   }
 
   async deleteUserAuth(email: string){
-
+    
   }
 
   async updateUserRoleAuth(email: string, newrole: string, token: string) {

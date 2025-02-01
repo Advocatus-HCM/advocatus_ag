@@ -1,37 +1,14 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class PersonalManagerAPI extends RESTDataSource {  
-  //override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
+  // override baseURL = "http://localhost:8001"; // URL del microservicio de gestión personal
   override baseURL = "http://advocatus_personal_manager_ms:8001"; // URL del microservicio de gestión personal
 
   //////USERS
-  async createUserPersonalManagerMS(name: string,
-    last_name: string,
-    email: string,
-    phone_number: string,
-    profession: string,
-    userEmail: string,
-    superior?: string,
-    team?: string) {
-
-    const body: any = {
-      name: name,
-      last_name: last_name,
-      email: email,
-      phone_number: phone_number,
-      profession: profession,
-    };
-
-    if (superior) {
-      body.superior = superior;
-    }
-
-    if (team) {
-      body.team = team;
-    }
+  async createUserPersonalManagerMS(data: any, userEmail: string) {
 
     return this.post("/create-user", {
-      body: JSON.stringify(body),
+      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
         'user-email': userEmail,
@@ -97,37 +74,25 @@ export class PersonalManagerAPI extends RESTDataSource {
 
   //////CONTRACTS
 
-  async updateContractPersonalManagerMS( newRole: string, email: string, userEmail: string) {
-    const body = {
-      role: newRole
-    }
+  async updateContractPersonalManagerMS( data: any, email: string, userEmail: string) {
     return this.patch(`/update-contract/${email}`, {
       headers: {
         'user-email': userEmail,
         'Content-Type': 'application/json',
         'x-apollo-operation-name': 'updateContractPersonalManagerMS'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(data)
     });
   }
 
-  async createContractPersonalManagerMS(user_email: string, type: string, salary: string, start_date: string, end_date: string, probation_end_date: string, role: string, emailheader: string) {
-    const body = {
-      user_email: user_email,
-      type: type,
-      salary: salary,
-      start_date: start_date,
-      end_date: end_date,
-      probation_end_date: probation_end_date,
-      role: role,
-    }
+  async createContractPersonalManagerMS(data: any, userEmail: string) {
     return this.post("/create-contract", {
       headers: {
-        'user-email': emailheader,
+        'user-email': userEmail,
         'Content-Type': 'application/json',
         'x-apollo-operation-name': 'createContractPersonalManagerMS'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(data)
     });
   }
 

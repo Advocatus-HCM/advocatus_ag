@@ -3,9 +3,10 @@ import { AuthAPI } from "../datasources/auth_api";
 
 const authResolvers: IResolvers = {
   Mutation: {
-    signup: async (_: any, { input }: { input: { email: string; password: string } }, { dataSources }: { dataSources: { authAPI: AuthAPI } }) => {
+    signup: async (_: any,
+      { data }: { data: any }, { dataSources }: { dataSources: { authAPI: AuthAPI } }) => {
       try {
-        const response = await dataSources.authAPI.signup(input);
+        const response = await dataSources.authAPI.signup(data);
         return {
           message: "Signup successful",
           success: true,
@@ -15,7 +16,7 @@ const authResolvers: IResolvers = {
           return {
             message: "Email already registered",
             success: false,
-            response: null
+            response: error
           }
       }
     },
@@ -23,10 +24,12 @@ const authResolvers: IResolvers = {
       let response = null;
       try {
         response = await dataSources.authAPI.signin(email, password);
-      } catch (error: any) {
-        console.error("Error during signin:", error);
-        const errorDetails = error?.extensions?.response?.body?.detail || error.message;
-        throw new Error(`User Authentication Error: ${JSON.stringify(errorDetails)}`);
+      } catch (error) {
+          return{
+            message: "Invalid credentials",
+            success: false,
+            response: error
+          }
       }
       return {
         message: "Signin successful",

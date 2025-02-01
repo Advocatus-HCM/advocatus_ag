@@ -41,7 +41,7 @@ export const userTypeDefs = gql`
   }
 
   type Mutation {
-    createUser(input: CreateUserInput, userEmail: String!): CreateUserResponse
-    deleteUser(email: String!, userEmail: String!): DeleteUserResponse
+    createUser(data: JSON!, userEmail: String!): JSON
+    deleteUser(email: String!, userEmail: String!): JSON
   }
 `;

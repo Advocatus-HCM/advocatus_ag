@@ -8,7 +8,7 @@ const ContractResolvers: IResolvers = {
     Mutation: {
         updateContract : async(
             _: any,
-            { newrole, contractid, userAuth }: { newrole: string, contractid: string, userAuth:{ email: string, token: string}},
+            { data, contractid, userAuth }: { data: any, contractid: string, userAuth:{ email: string, token: string}},
             { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
         ) => {
             let responsePersonalManager;
@@ -23,19 +23,25 @@ const ContractResolvers: IResolvers = {
             }  
             //UpdateUserPersonalManager
             try{
-                responsePersonalManager = await dataSources.personalManagerAPI.updateContractPersonalManagerMS(newrole, contractid, userAuth.email);
-            }catch(error: any){
-                console.error("Error updating contract in Personal Manager:", error);
-                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
-                throw new Error(`Contract update failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
+                responsePersonalManager = await dataSources.personalManagerAPI.updateContractPersonalManagerMS(data, contractid, userAuth.email);
+            }catch(error){
+                return{
+                    message: "Error updating contract in Personal Manager Microservice",
+                    success: false,
+                    AuthResponse: null,
+                    PersonalManagerResponse: error
+                }
             }
             //UpdateUserAuth
             try{
-                responseAuth = await dataSources.authAPI.updateUserRoleAuth(contractid, newrole, userAuth.token);
-            }catch(error: any){
-                console.error("Error updating contract in Auth API:", error);
-                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
-                throw new Error(`Contract update failed in Authentication: ${JSON.stringify(errorDetails)}`);
+                responseAuth = await dataSources.authAPI.updateUserRoleAuth(contractid, data.role, userAuth.token);
+            }catch(error){
+                return{
+                    message: "Error updating contract in Authentication Microservice",
+                    success: false,
+                    AuthResponse: error,
+                    PersonalManagerResponse: responsePersonalManager
+                }
             }
             //Success
             return {
@@ -49,7 +55,7 @@ const ContractResolvers: IResolvers = {
 
         createContract: async(
             _: any,
-            { createContractInput, userAuth }: { createContractInput: { user_email: string, type: string, salary: string, start_date: string, end_date: string, probation_end_date: string, role: string }, userAuth:{ email: string, token: string}},
+            { contract, userAuth }: { contract: any, userAuth:{ email: string, token: string}},
             { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }
         ) => {
                let responsePersonalManager;
@@ -63,26 +69,25 @@ const ContractResolvers: IResolvers = {
                 }
                 //CreateContractPersonalManager 
                 try{
-                    responsePersonalManager = await dataSources.personalManagerAPI.createContractPersonalManagerMS(createContractInput.user_email, createContractInput.type, createContractInput.salary, createContractInput.start_date, createContractInput.end_date, createContractInput.probation_end_date, createContractInput.role, userAuth.email);
-                }catch(error: any){
-                    console.error("Error creating contract in Personal Manager:", error);
-                    const status = error.extensions?.response?.status || error.status || error.statusCode;
-                    const errorDetails = error.extensions?.response?.body?.errors || error.message;
-                    if (status === 403) {
-                      throw new Error("User does not have permission to create a contract.");
+                    responsePersonalManager = await dataSources.personalManagerAPI.createContractPersonalManagerMS(contract, userAuth.email);
+                }catch(error){
+                    return{
+                        message: "Error creating contract in Personal Manager Microservice",
+                        success: false,
+                        AuthResponse: null,
+                        PersonalManagerResponse: error
                     }
-                    if(status === 500){
-                        throw new Error("Error: User does not exists or has another contract");
-                    }
-                    throw new Error(`Contract creation failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
                 }
                 //CreateContractAuth
                 try{
-                    responseAuth = await dataSources.authAPI.updateUserRoleAuth(createContractInput.user_email, createContractInput.role, userAuth.token);
-                }catch(error: any){
-                    console.error("Error creating contract in Auth API:", error);
-                    const errorDetails = error?.extensions?.response?.body?.errors || error.message;
-                    throw new Error(`Contract creation failed in Authentication: ${JSON.stringify(errorDetails)}`);
+                    responseAuth = await dataSources.authAPI.updateUserRoleAuth(contract.user_email, contract.role, userAuth.token);
+                }catch(error){
+                    return{
+                        message: "Error creating contract in Authentication Microservice",
+                        success: false,
+                        AuthResponse: error,
+                        PersonalManagerResponse: responsePersonalManager
+                    }
                 }
                 //Success
                 return {
@@ -110,18 +115,24 @@ const ContractResolvers: IResolvers = {
             //DeleteContractPersonalManager
             try{
                 responsePersonalManager = await dataSources.personalManagerAPI.deleteContractPersonalManagerMS(contractid, userAuth.email);
-            }catch(error: any){
-                console.error("Error deleting contract in Personal Manager:", error);
-                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
-                throw new Error(`Contract deletion failed in Personal Manager: ${JSON.stringify(errorDetails)}`);
+            }catch(error){
+                return{
+                    message: "Error deleting contract in Personal Manager Microservice",
+                    success: false,
+                    AuthResponse: null,
+                    PersonalManagerResponse: error
+                }
             }
             //DeleteContractAuth
             try{
                 responseAuth = await dataSources.authAPI.updateUserRoleAuth(contractid, "desactivado", userAuth.token);
-            }catch(error: any){
-                console.error("Error deleting contract in Auth API:", error);
-                const errorDetails = error?.extensions?.response?.body?.errors || error.message;
-                throw new Error(`Contract deletion failed in Authentication: ${JSON.stringify(errorDetails)}`);
+            }catch(error){
+                return{
+                    message: "Error deleting contract in Authentication Microservice",
+                    success: false,
+                    AuthResponse: error,
+                    PersonalManagerResponse: responsePersonalManager
+                }
             }
             //Success
             return {

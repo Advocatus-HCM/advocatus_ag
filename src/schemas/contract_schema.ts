@@ -1,46 +1,17 @@
 import { gql } from "graphql-tag";
 
 export const ContractTypeDefs = gql`
-    type UpdateContractResponse{
-        message: String!
-        success: Boolean!
-        AuthResponse: JSON
-        PersonalManagerResponse: JSON
-    }
-
+    scalar JSON
+    
     input UserAuth{
         email: String!
         token: String!
     }
 
-    input CreateContractInput{
-        user_email: String!
-        type: String!
-        salary: String!
-        start_date: String!
-        end_date: String!
-        probation_end_date: String!
-        role: String!
-    }
-
-    type CreateContractResponse{
-        message: String!
-        success: Boolean!
-        AuthResponse: JSON
-        PersonalManagerResponse: JSON
-    }
-
-    type DeleteContractResponse{
-        message: String!
-        success: Boolean!
-        AuthResponse: JSON
-        PersonalManagerResponse: JSON
-    }
-
     type Mutation{
-        updateContract(newrole: String!, contractid: String!, userAuth: UserAuth!): UpdateContractResponse
-        createContract(createContractInput: CreateContractInput!, userAuth: UserAuth!): CreateContractResponse
-        deleteContract(contractid: String!, userAuth: UserAuth!): DeleteContractResponse
+        updateContract(data: JSON!, contractid: String!, userAuth: UserAuth!): JSON
+        createContract(contract: JSON!, userAuth: UserAuth!): JSON
+        deleteContract(contractid: String!, userAuth: UserAuth!): JSON
         getContractTypes(userAuth: UserAuth!): JSON
         getAllContracts(userAuth: UserAuth!): JSON
         getContract(contractid: String!, userAuth: UserAuth!): JSON
