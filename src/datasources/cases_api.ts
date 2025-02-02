@@ -1,8 +1,8 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
 
 export class CasesAPI extends RESTDataSource {
-    override baseURL = "http://localhost:8002";
-    // override baseURL = "http://advocatus_cases_ms:8002";
+    // override baseURL = "http://localhost:8002";
+    override baseURL = "http://advocatus_cases_ms:8002";
 
     async createCase(data: any) {
         return this.post("/cases/", {
