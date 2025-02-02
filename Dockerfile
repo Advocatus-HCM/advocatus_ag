@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 COPY . .
 
 # Ensure that the node_modules/.bin directory is executable
-RUN chmod -R 777 ./node_modules/.bin
+#RUN chmod -R 777 ./node_modules/.bin
 
 # Expose the port the app runs on
 EXPOSE 4000
