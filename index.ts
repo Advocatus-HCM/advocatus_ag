@@ -6,6 +6,9 @@ import { authTypeDefs} from "./src/schemas/auth_schema";
 import { authResolvers } from "./src/resolvers/auth_resolver";
 import { AuthAPI } from "./src/datasources/auth_api";
 import { PersonalManagerAPI } from "./src/datasources/personal_manager_api";
+import { CasesAPI } from "./src/datasources/cases_api";
+
+
 import { personalManagerTypeDefs } from "./src/schemas/personal_manager_schema";
 import { PersonalManagerResolvers } from "./src/resolvers/personal_manager_resolver";
 import { UserResolvers } from "./src/resolvers/user_resolver";
@@ -56,6 +59,7 @@ const startServer = async () => {
       dataSources: {
         authAPI: new AuthAPI(),
         personalManagerAPI: new PersonalManagerAPI(),
+        casesAPI: new CasesAPI()
       },
     }),
   });

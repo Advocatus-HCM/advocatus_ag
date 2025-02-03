@@ -86,7 +86,7 @@ const CasesResolvers: IResolvers = {
                     success: true,
                     response: response
                 }
-            }catch(error){
+            }catch(error: any){
                 return{
                     message: "Error retrieving cases",
                     success: false,

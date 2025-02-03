@@ -5,7 +5,7 @@ export class CasesAPI extends RESTDataSource {
     override baseURL = "http://advocatus_cases_ms:8002";
 
     async createCase(data: any) {
-        return this.post("/cases/", {
+        return this.post("/cases", {
             body: data,
             headers: {
                 'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export class CasesAPI extends RESTDataSource {
     }
 
     async getAllCases(){
-        return this.get("/cases/", {
+        return this.get("/cases", {
             headers: {
                 'x-apollo-operation-name': 'getAllCases'
             },
