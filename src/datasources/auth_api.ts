@@ -1,8 +1,10 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export class AuthAPI extends RESTDataSource {  
-  // override baseURL = "http://localhost:8000";
-  override baseURL = "http://advocatus_authentificator_ms:8000";  
+
+  override baseURL = process.env.AUTH_MS_URL;  
 
   async verifyToken(token: string) {
     return this.get("/token", {

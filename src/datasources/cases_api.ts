@@ -1,8 +1,9 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export class CasesAPI extends RESTDataSource {
-    // override baseURL = "http://localhost:8002";
-    override baseURL = "http://advocatus_cases_ms:8002";
+    override baseURL = process.env.CASES_MS_URL;
 
     async createCase(data: any) {
         return this.post("/cases", {
