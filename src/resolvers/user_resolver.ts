@@ -26,8 +26,7 @@ const UserResolvers: IResolvers = {
 
       try {
         const bodyAuth = {
-          email: data.email,
-          password: data.password
+          email: data.email
         };
         responseAuth = await dataSources.authAPI.signup(bodyAuth);
       } catch (error: any) {
@@ -80,8 +79,31 @@ const UserResolvers: IResolvers = {
         AuthResponse: responseAuth,
         PersonalManagerResponse: responsePersonalManager,
       };
-    }
+    },
+
+    updateUser: async (_: any,{data, token}:{data: any, token:string},
+    {dataSources}:{dataSources:{authAPI:AuthAPI}}
+    ) =>{
+      let responseAuth;
+      try {
+        responseAuth = await dataSources.authAPI.updateUser(data, token);
+        //No Problems
+        return {
+          message: "User updated successfully",
+          success: true,
+          response: responseAuth
+        };
+      } catch (error: any) {
+        return{
+          message: "Error updating user in Authentication Microservice",
+          success: false,
+          response: error
+        }
+      }
+    },
   },
+
+
 };
 
 export { UserResolvers };

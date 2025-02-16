@@ -59,4 +59,15 @@ export class AuthAPI extends RESTDataSource {
       body: JSON.stringify(body)
     });
   }
+
+  async updateUser(data: any, token: string) {
+    return this.put("/user/update", {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-apollo-operation-name': 'updateUser',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    });
+  }
 }
