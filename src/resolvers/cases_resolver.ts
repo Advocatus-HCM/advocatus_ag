@@ -154,6 +154,36 @@ const CasesResolvers: IResolvers = {
                 }
             }
         },
+
+        permanentCaseDelete: async(
+            _: any,
+            { caseid, userAuth }: { caseid: string, userAuth:{ email: string, token: string}},
+            { dataSources }: { dataSources: { casesAPI: CasesAPI, authAPI: AuthAPI } }
+        ) => {
+            //Validate Token
+            try{
+                await dataSources.authAPI.verifyToken(userAuth.token);
+            }
+            catch{
+                throw new Error("Invalid Token");
+            }
+            //Delete Case Permanently
+            let response;
+            try{
+                response = await dataSources.casesAPI.permanentCaseDelete(caseid);
+                return{
+                    message: "Case deleted successfully",
+                    success: true,
+                    response: response
+                }
+            }catch(error){
+                return{
+                    message: "Error deleting case",
+                    success: false,
+                    response: error
+                }
+            }
+        },
     }
 
 };

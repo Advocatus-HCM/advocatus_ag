@@ -7,6 +7,7 @@ import { authResolvers } from "./src/resolvers/auth_resolver";
 import { AuthAPI } from "./src/datasources/auth_api";
 import { PersonalManagerAPI } from "./src/datasources/personal_manager_api";
 import { CasesAPI } from "./src/datasources/cases_api";
+import { AttendanceAPI} from "./src/datasources/attendance_api";
 
 
 import { personalManagerTypeDefs } from "./src/schemas/personal_manager_schema";
@@ -21,6 +22,8 @@ import { AssistantTypeDefs} from "./src/schemas/assistant_schema";
 import { AssistantResolvers} from "./src/resolvers/assistant_resolver";
 import { CasesTypeDefs } from "./src/schemas/cases_schema"
 import { CasesResolvers } from "./src/resolvers/cases_resolver"
+import { AttendanceTypeDefs } from "./src/schemas/attendance_schema"
+import { AttendanceResolvers } from "./src/resolvers/attendance_resolver"
 
 const app = express();
 app.use(cors());
@@ -33,14 +36,16 @@ const server = new ApolloServer({
     ContractTypeDefs,
     TeamTypeDefs,
     AssistantTypeDefs,
-    CasesTypeDefs],
+    CasesTypeDefs,
+    AttendanceTypeDefs],
   resolvers: [authResolvers,
     PersonalManagerResolvers,
     UserResolvers,
     ContractResolvers,
     TeamResolvers,
     AssistantResolvers,
-    CasesResolvers],
+    CasesResolvers,
+    AttendanceResolvers],
   formatError: (err) => {
     console.error("GraphQL Error:", err);
     return {
@@ -59,7 +64,8 @@ const startServer = async () => {
       dataSources: {
         authAPI: new AuthAPI(),
         personalManagerAPI: new PersonalManagerAPI(),
-        casesAPI: new CasesAPI()
+        casesAPI: new CasesAPI(),
+        attendanceAPI: new AttendanceAPI()
       },
     }),
   });

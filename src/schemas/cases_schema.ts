@@ -7,5 +7,6 @@ export const CasesTypeDefs = gql`
         archiveCase(caseid: String!, userAuth: UserAuth!): JSON
         getCase(caseid: String!, userAuth: UserAuth!): JSON
         getAllCases(userAuth: UserAuth!): JSON
+        permanentCaseDelete(caseid: String!, userAuth: UserAuth!): JSON
     }
 `;

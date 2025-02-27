@@ -48,4 +48,12 @@ export class CasesAPI extends RESTDataSource {
             },
         });
     }  
+
+    async permanentCaseDelete(caseid: string){
+        return this.delete(`/permanent/${caseid}`, {
+            headers: {
+                'x-apollo-operation-name': 'permanentCaseDelete'
+            },
+        });
+    }
 }
