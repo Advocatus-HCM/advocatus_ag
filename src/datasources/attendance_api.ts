@@ -6,7 +6,7 @@ export class AttendanceAPI extends RESTDataSource {
     override baseURL = process.env.ATTENDANCE_MS_URL;
 
     async insertAttendance(data: any){
-        return this.post("/attendance", {
+        return this.post("/insertattendance", {
             body: data,
             headers: {
                 'Content-Type': 'application/json',
