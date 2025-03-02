@@ -37,11 +37,12 @@ export class PersonalManagerAPI extends RESTDataSource {
     });
   }
 
-  async updateUserPersonalManager(email: string, data: any){
+  async updateUserPersonalManager(email: string, data: any, userEmail: string) {
     return this.put(`/update-user/${email}`, {
       headers: {
         'Content-Type': 'application/json',
-        'x-apollo-operation-name': 'updateUserPersonalManager'
+        'x-apollo-operation-name': 'updateUserPersonalManager',
+        'User-Email': userEmail
       },
       body: JSON.stringify(data)
     });
