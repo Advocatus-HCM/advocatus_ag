@@ -50,7 +50,7 @@ const PersonalManagerResolvers: IResolvers = {
       }  
       
       try {
-        const response = await dataSources.personalManagerAPI.updateUserPersonalManager(email, input);
+        const response = await dataSources.personalManagerAPI.updateUserPersonalManager(email, input, userAuth.email);
         return {
             message: "User updated in Personal Manager",
             success: true,
