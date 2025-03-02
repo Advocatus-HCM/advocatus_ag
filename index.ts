@@ -75,7 +75,7 @@ const server = new ApolloServer({
     myPlugin
   ],
   formatError: (err) => {
-    console.error("AG Error:", err);
+    console.error("[ERROR] AG Error:", err);
     return {
       message: err.message || "An unexpected error occurred",
       code: err.extensions?.code || "INTERNAL_SERVER_ERROR",
