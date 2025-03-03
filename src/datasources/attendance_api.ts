@@ -27,11 +27,11 @@ export class AttendanceAPI extends RESTDataSource {
 
     async getReport(data: any){
         return this.get("/get-reports", {
-            body: data,
             headers: {
                 'Content-Type': 'application/json',
                 'x-apollo-operation-name': 'getReport'
             },
+            params: data
         });
     }
 
