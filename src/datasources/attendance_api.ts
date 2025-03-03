@@ -26,7 +26,7 @@ export class AttendanceAPI extends RESTDataSource {
     }
 
     async getReport(data: any){
-        return this.post("/get-report", {
+        return this.post("/get-reports", {
             body: data,
             headers: {
                 'Content-Type': 'application/json',
