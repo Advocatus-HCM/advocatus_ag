@@ -74,6 +74,31 @@ const PersonalManagerResolvers: IResolvers = {
       // }
     },
 
+    deleteUserPersonalManager: async (_: any, { email, userAuth }: { email: string, userAuth:{ email: string, token: string }}, { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }) => {
+      //Verify token
+      try{
+        await dataSources.authAPI.verifyToken(userAuth.token);
+      }
+      catch{
+            throw new Error("Invalid Token");
+      }  
+      
+      try {
+        const response = await dataSources.personalManagerAPI.deleteUserPersonalManager(email, userAuth.email);
+        return {
+            message: "User deleted",
+            success: true,
+            response: response,
+          };
+      } catch (error) {
+        return {
+          message: "Error: Could not delete user",
+          success: false,
+          response: error
+        };
+      }
+    },
+
     getRoles: async (_: any,
       { userAuth }: { userAuth:{ email: string, token: string }},
       { dataSources }: { dataSources: { personalManagerAPI: PersonalManagerAPI, authAPI: AuthAPI } }) => {

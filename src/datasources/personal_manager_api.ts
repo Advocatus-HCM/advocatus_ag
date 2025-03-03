@@ -22,7 +22,7 @@ export class PersonalManagerAPI extends RESTDataSource {
   async deleteUserPersonalManager(email: string, userEmail: string) {
     return this.delete(`/delete-user/${email}`, {
       headers: {
-        'user-email': userEmail,
+        'User-Email': userEmail,
         'x-apollo-operation-name': 'deleteUserPersonalManager'
       }
     });

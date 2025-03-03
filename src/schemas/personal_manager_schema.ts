@@ -29,7 +29,7 @@ export const personalManagerTypeDefs = gql`
 
     type Mutation{
         createUserPersonalManagerMS(input: CreateUserPersonalManagerInput!, userEmail: String!): CreateUserResponsePersonalManagerMS
-        deleteUserPersonalManager(email: String!, userEmail: String!): DeleteUserPersonalManagerResponse
+        deleteUserPersonalManager(email: String!, userAuth: UserAuth!): JSON
         getUserPersonalManager(email: String!,  userAuth: UserAuth!): JSON
         updateUserPersonalManager(email: String!, input: JSON!, userAuth: UserAuth!): JSON
         getAllUsersPersonalManager(userAuth: UserAuth!): JSON
